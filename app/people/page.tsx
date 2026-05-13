@@ -17,7 +17,7 @@ export default function PeoplePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from("people").select("*").order("name").then(({ data }) => {
+    supabase.from("ml_people").select("*").order("name").then(({ data }) => {
       setPeople(data || []);
       setLoading(false);
     });

@@ -12,8 +12,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     Promise.all([
-      supabase.from("grades").select("dimension, score"),
-      supabase.from("grades").select("dimension, score, meeting_id, created_at").order("created_at", { ascending: false }).limit(30),
+      supabase.from("ml_grades").select("dimension, score"),
+      supabase.from("ml_grades").select("dimension, score, meeting_id, created_at").order("created_at", { ascending: false }).limit(30),
     ]).then(([avgRes, recentRes]) => {
       // Compute averages client-side
       const grades = avgRes.data || [];

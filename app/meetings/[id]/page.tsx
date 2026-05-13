@@ -12,8 +12,8 @@ export default function MeetingDetail({ params }: { params: Promise<{ id: string
   const [grades, setGrades] = useState<Grade[]>([]);
 
   useEffect(() => {
-    supabase.from("meetings").select("*").eq("id", id).single().then(({ data }) => setMeeting(data));
-    supabase.from("grades").select("*").eq("meeting_id", id).order("dimension").then(({ data }) => setGrades(data || []));
+    supabase.from("ml_meetings").select("*").eq("id", id).single().then(({ data }) => setMeeting(data));
+    supabase.from("ml_grades").select("*").eq("meeting_id", id).order("dimension").then(({ data }) => setGrades(data || []));
   }, [id]);
 
   if (!meeting) return <p className="text-slate-500 text-center py-20">Loading...</p>;

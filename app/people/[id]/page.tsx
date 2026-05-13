@@ -10,9 +10,13 @@ export default function PersonDetail({ params }: { params: Promise<{ id: string 
   const [meetings, setMeetings] = useState<any[]>([]);
 
   useEffect(() => {
-    supabase.from("people").select("*").eq("id", id).single().then(({ data }) => setPerson(data));
-    supabase.from("participants").select("meeting_id, meetings:meeting_id(id, title, started_at)").eq("person_id", id)
-      .then(({ data }) => setMeetings((data || []).map((d: any) => d.meetings).filter(Boolean)));
+    supabase.from("ml_people").select("*").eq("id", id).single().then(({ data }) => setPerson(data));
+    supabase.from("ml_participants").select("meeting_id").eq("person_id", id).then(async ({ data }) => {
+      if (!data?.length) return;
+      const ids = data.map((d) => d.meeting_id);
+      const { data: mtgs } = await supabase.from("ml_meetings").select("id, title, started_at").in("id", ids).order("started_at", { ascending: false });
+      setMeetings(mtgs || []);
+    });
   }, [id]);
 
   if (!person) return <p className="text-slate-500 text-center py-20">Loading...</p>;

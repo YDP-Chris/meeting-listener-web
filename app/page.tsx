@@ -18,7 +18,7 @@ export default function MeetingsPage() {
 
   useEffect(() => {
     supabase
-      .from("meetings")
+      .from("ml_meetings")
       .select("id, title, started_at, duration_seconds, meeting_type, summary")
       .order("started_at", { ascending: false })
       .then(({ data }) => {

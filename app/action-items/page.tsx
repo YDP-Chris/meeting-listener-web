@@ -17,7 +17,7 @@ export default function ActionItemsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from("action_items").select("*").order("created_at", { ascending: false }).then(({ data }) => {
+    supabase.from("ml_action_items").select("*").order("created_at", { ascending: false }).then(({ data }) => {
       setItems(data || []);
       setLoading(false);
     });
