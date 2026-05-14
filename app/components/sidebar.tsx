@@ -91,12 +91,7 @@ export function Sidebar() {
       >
         {/* Logo */}
         <div className="px-5 py-5 flex items-center gap-2.5">
-          <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-            <rect x="12" y="4" width="8" height="14" rx="4" fill="#d4a853" />
-            <path d="M8 16v2a8 8 0 0 0 16 0v-2" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" fill="none" />
-            <line x1="16" y1="26" x2="16" y2="29" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" />
-            <path d="M24 10c2 1 3 3 3 6s-1 5-3 6" stroke="#e8c171" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.5" />
-          </svg>
+          <img src="/icon.png" alt="MeetingIQ" width={28} height={28} className="rounded-md" />
           <span className="text-base font-bold" style={{ color: '#f0ece4' }}>
             Meeting<span style={{ color: '#d4a853' }}>IQ</span>
           </span>

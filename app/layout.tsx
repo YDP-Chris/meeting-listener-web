@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full" style={{ background: '#111113', color: '#f0ece4' }}>
         <Sidebar />
-        <main className="lg:ml-[220px] min-h-screen p-6 lg:p-8 max-w-6xl">
+        <main className="lg:ml-[220px] min-h-screen pt-14 pb-6 px-4 lg:pt-8 lg:px-8 max-w-6xl">
           {children}
         </main>
       </body>
