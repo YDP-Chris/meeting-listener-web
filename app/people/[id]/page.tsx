@@ -19,76 +19,116 @@ export default function PersonDetail({ params }: { params: Promise<{ id: string 
     });
   }, [id]);
 
-  if (!person) return <p className="text-slate-500 text-center py-20">Loading...</p>;
+  if (!person) return <div className="flex items-center justify-center py-32"><div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#6366f1', borderTopColor: 'transparent' }} /></div>;
 
   const style = person.communication_style || {};
   const triggers = person.triggers || {};
 
   return (
     <div>
-      <Link href="/people" className="text-sm text-slate-500 hover:text-rose-400 mb-4 inline-block">&larr; Back to people</Link>
-      <h1 className="text-2xl font-semibold mb-1">{person.name}</h1>
-      <p className="text-xs text-slate-500 mb-6">
-        Since {person.first_seen ? new Date(person.first_seen).toLocaleDateString() : "N/A"}
-        {person.rapport_score != null && ` · Rapport: ${person.rapport_score}/10 (${person.rapport_trend || "unknown"})`}
-      </p>
+      <Link href="/people" className="inline-flex items-center gap-1 text-sm mb-6 transition-colors" style={{ color: '#64748b' }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = '#818cf8')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to people
+      </Link>
+
+      <div className="flex items-center gap-4 mb-2">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold" style={{ background: '#6366f120', color: '#818cf8' }}>
+          {person.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{person.name}</h1>
+          <p className="text-xs" style={{ color: '#64748b' }}>
+            Since {person.first_seen ? new Date(person.first_seen).toLocaleDateString() : "N/A"}
+            {person.rapport_score != null && ` · Rapport: ${person.rapport_score}/10 (${person.rapport_trend || "unknown"})`}
+          </p>
+        </div>
+      </div>
 
       {Object.keys(style).length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-sm font-semibold text-rose-500 uppercase tracking-wider mb-3">Communication Style</h2>
-          <div className="space-y-2">
+        <Section title="Communication Style">
+          <div className="space-y-3 mb-3">
             {style.directness != null && <Bar label="Directness" value={style.directness} />}
             {style.formality != null && <Bar label="Formality" value={style.formality} />}
-            {style.pace && <div className="text-sm text-slate-400">Pace: {style.pace}</div>}
-            {style.preferred_format && <div className="text-sm text-slate-400">Format: {style.preferred_format}</div>}
           </div>
-          {style.summary && <p className="text-sm text-slate-500 italic mt-3">{style.summary}</p>}
-        </section>
+          <div className="flex gap-4 text-sm mb-3" style={{ color: '#94a3b8' }}>
+            {style.pace && <span>Pace: <strong className="capitalize">{style.pace}</strong></span>}
+            {style.preferred_format && <span>Format: <strong className="capitalize">{style.preferred_format}</strong></span>}
+          </div>
+          {style.summary && <p className="text-sm italic leading-relaxed" style={{ color: '#94a3b8' }}>{style.summary}</p>}
+        </Section>
       )}
 
       {triggers.positive_triggers?.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-sm font-semibold text-rose-500 uppercase tracking-wider mb-2">Responds Well To</h2>
-          <ul className="list-disc list-inside text-sm text-emerald-400/80">
-            {triggers.positive_triggers.map((t: any, i: number) => <li key={i}>{t.trigger}</li>)}
-          </ul>
-        </section>
+        <Section title="Responds Well To">
+          <div className="space-y-2">
+            {triggers.positive_triggers.map((t: any, i: number) => (
+              <div key={i} className="flex items-start gap-2 text-sm">
+                <span style={{ color: '#06d6a0' }}>+</span>
+                <div>
+                  <span style={{ color: '#cbd5e1' }}>{t.trigger}</span>
+                  {t.context && <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{t.context}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
       )}
 
       {triggers.negative_triggers?.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-sm font-semibold text-rose-500 uppercase tracking-wider mb-2">Sensitive To</h2>
-          <ul className="list-disc list-inside text-sm text-rose-400/80">
-            {triggers.negative_triggers.map((t: any, i: number) => <li key={i}>{t.trigger}</li>)}
-          </ul>
-        </section>
+        <Section title="Sensitive To">
+          <div className="space-y-2">
+            {triggers.negative_triggers.map((t: any, i: number) => (
+              <div key={i} className="flex items-start gap-2 text-sm">
+                <span style={{ color: '#ef4444' }}>-</span>
+                <div>
+                  <span style={{ color: '#cbd5e1' }}>{t.trigger}</span>
+                  {t.context && <p className="text-xs mt-0.5" style={{ color: '#475569' }}>{t.context}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
       )}
 
       {meetings.length > 0 && (
-        <section>
-          <h2 className="text-sm font-semibold text-rose-500 uppercase tracking-wider mb-2">Interaction History</h2>
+        <Section title="Interaction History">
           <div className="space-y-2">
             {meetings.map((m: any) => (
-              <Link key={m.id} href={`/meetings/${m.id}`} className="block bg-slate-900 border border-slate-800 rounded p-3 hover:border-rose-500 transition-colors">
+              <Link key={m.id} href={`/meetings/${m.id}`}
+                className="flex items-center justify-between rounded-lg p-3 transition-all"
+                style={{ background: '#0a0b14', border: '1px solid #1e293b' }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#1e293b')}>
                 <span className="text-sm">{m.title}</span>
-                <span className="text-xs text-slate-500 ml-2">{m.started_at ? new Date(m.started_at).toLocaleDateString() : ""}</span>
+                <span className="text-xs" style={{ color: '#64748b' }}>{m.started_at ? new Date(m.started_at).toLocaleDateString() : ""}</span>
               </Link>
             ))}
           </div>
-        </section>
+        </Section>
       )}
     </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="mt-8">
+      <h2 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#6366f1' }}>{title}</h2>
+      {children}
+    </section>
   );
 }
 
 function Bar({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-3 text-sm">
-      <span className="w-24 text-slate-500">{label}</span>
-      <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-        <div className="h-full bg-rose-500 rounded-full" style={{ width: `${value * 10}%` }} />
+      <span className="w-24" style={{ color: '#64748b' }}>{label}</span>
+      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: '#1e293b' }}>
+        <div className="h-full rounded-full" style={{ width: `${value * 10}%`, background: 'linear-gradient(90deg, #6366f1, #06d6a0)' }} />
       </div>
-      <span className="text-slate-400 w-8 text-right">{value}/10</span>
+      <span className="w-10 text-right" style={{ color: '#94a3b8' }}>{value}/10</span>
     </div>
   );
 }

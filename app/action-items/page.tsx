@@ -2,15 +2,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-type ActionItem = {
-  id: number;
-  task: string;
-  owner: string;
-  deadline: string;
-  status: string;
-  is_user_task: boolean;
-  meeting_id: number;
-};
+type ActionItem = { id: number; task: string; owner: string; deadline: string; status: string; is_user_task: boolean; meeting_id: number };
 
 export default function ActionItemsPage() {
   const [items, setItems] = useState<ActionItem[]>([]);
@@ -23,35 +15,37 @@ export default function ActionItemsPage() {
     });
   }, []);
 
-  if (loading) return <p className="text-slate-500 text-center py-20">Loading...</p>;
+  if (loading) return <div className="flex items-center justify-center py-32"><div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#6366f1', borderTopColor: 'transparent' }} /></div>;
+  if (items.length === 0) return <p className="text-center py-32" style={{ color: '#64748b' }}>No action items yet.</p>;
 
   const overdue = items.filter((i) => i.status === "overdue");
   const open = items.filter((i) => i.status === "open");
   const complete = items.filter((i) => i.status === "complete");
 
   const renderItem = (item: ActionItem) => (
-    <div key={item.id} className={`flex items-start gap-3 py-3 border-b border-slate-800 ${item.status === "overdue" ? "border-l-2 border-l-rose-500 pl-3" : ""}`}>
-      <input type="checkbox" checked={item.status === "complete"} readOnly className="mt-1 accent-emerald-400" />
+    <div key={item.id} className="flex items-start gap-3 py-3" style={{ borderBottom: '1px solid #1e293b', ...(item.status === "overdue" ? { borderLeft: '3px solid #ef4444', paddingLeft: 12 } : {}) }}>
+      <input type="checkbox" checked={item.status === "complete"} readOnly className="mt-1" style={{ accentColor: '#06d6a0' }} />
       <div>
         <p className="text-sm">{item.task}</p>
-        <p className="text-xs text-slate-500">
-          {item.owner && `Owner: ${item.owner}`}
-          {item.deadline && ` · Due: ${item.deadline}`}
-          {item.is_user_task && <span className="ml-1 px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 text-[10px]">You</span>}
+        <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>
+          {item.owner && `${item.owner}`}
+          {item.deadline && ` · ${item.deadline}`}
+          {item.is_user_task && <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-medium" style={{ background: '#6366f120', color: '#818cf8' }}>You</span>}
         </p>
       </div>
     </div>
   );
 
-  if (items.length === 0) return <p className="text-slate-500 text-center py-20">No action items yet.</p>;
-
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-rose-500 mb-6">Action Items</h1>
-      <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-        {overdue.length > 0 && <><h3 className="text-xs font-semibold text-rose-400 uppercase mb-2">Overdue ({overdue.length})</h3>{overdue.map(renderItem)}</>}
-        {open.length > 0 && <><h3 className="text-xs font-semibold text-slate-500 uppercase mt-4 mb-2">Open ({open.length})</h3>{open.map(renderItem)}</>}
-        {complete.length > 0 && <><h3 className="text-xs font-semibold text-emerald-400 uppercase mt-4 mb-2">Completed ({complete.length})</h3>{complete.map(renderItem)}</>}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight">Action Items</h1>
+        <p className="text-sm mt-1" style={{ color: '#64748b' }}>{open.length} open · {complete.length} done</p>
+      </div>
+      <div className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid #1e293b' }}>
+        {overdue.length > 0 && <><h3 className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#ef4444' }}>Overdue ({overdue.length})</h3>{overdue.map(renderItem)}</>}
+        {open.length > 0 && <><h3 className="text-xs font-semibold uppercase tracking-widest mt-5 mb-2" style={{ color: '#6366f1' }}>Open ({open.length})</h3>{open.map(renderItem)}</>}
+        {complete.length > 0 && <><h3 className="text-xs font-semibold uppercase tracking-widest mt-5 mb-2" style={{ color: '#06d6a0' }}>Completed ({complete.length})</h3>{complete.map(renderItem)}</>}
       </div>
     </div>
   );
