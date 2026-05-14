@@ -29,31 +29,30 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col" style={{ background: '#0a0b14', color: '#e2e8f0' }}>
-        <header className="border-b px-6 py-3" style={{ background: '#111827', borderColor: '#1e293b' }}>
+      <body className="min-h-full flex flex-col" style={{ background: '#111113', color: '#f0ece4' }}>
+        <header className="border-b px-6 py-3" style={{ background: '#1a1a1e', borderColor: '#2a2a30' }}>
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #6366f1, #06d6a0)' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <line x1="12" x2="12" y1="19" y2="22"/>
-                </svg>
-              </div>
-              <div>
-                <span className="text-lg font-bold tracking-tight" style={{ color: '#e2e8f0' }}>
-                  Meeting<span style={{ color: '#6366f1' }}>IQ</span>
-                </span>
-              </div>
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <rect x="12" y="4" width="8" height="14" rx="4" fill="#d4a853" />
+                <path d="M8 16v2a8 8 0 0 0 16 0v-2" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" fill="none" />
+                <line x1="16" y1="26" x2="16" y2="29" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" />
+                <path d="M24 10c2 1 3 3 3 6s-1 5-3 6" stroke="#e8c171" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.6" />
+                <path d="M27 8c2.5 2 4 5 4 8s-1.5 6-4 8" stroke="#e8c171" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.3" />
+              </svg>
+              <span className="text-lg font-bold tracking-tight" style={{ color: '#f0ece4' }}>
+                Meeting<span style={{ color: '#d4a853' }}>IQ</span>
+              </span>
             </Link>
             <Nav />
           </div>
         </header>
         <main className="flex-1 p-6 max-w-6xl mx-auto w-full">{children}</main>
-        <footer className="border-t px-6 py-4 text-center" style={{ borderColor: '#1e293b' }}>
-          <p className="text-xs" style={{ color: '#475569' }}>
-            MeetingIQ — Communication Intelligence Platform
-          </p>
+        <footer className="border-t px-6 py-4" style={{ borderColor: '#2a2a30' }}>
+          <div className="max-w-6xl mx-auto flex items-center justify-between">
+            <p className="text-xs" style={{ color: '#5e5a55' }}>MeetingIQ — Communication Intelligence</p>
+            <p className="text-xs font-semibold" style={{ color: '#5e5a55', letterSpacing: 2 }}>ESSAYONS</p>
+          </div>
         </footer>
       </body>
     </html>

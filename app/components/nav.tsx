@@ -22,8 +22,8 @@ export function Nav() {
             href={link.href}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all"
             style={{
-              color: active ? '#e2e8f0' : '#64748b',
-              background: active ? '#1e293b' : 'transparent',
+              color: active ? '#f0ece4' : '#5e5a55',
+              background: active ? '#2a2a30' : 'transparent',
             }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
