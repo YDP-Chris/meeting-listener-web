@@ -73,16 +73,25 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile hamburger */}
-      <button
-        className="fixed top-3 left-3 z-50 p-2 rounded-lg lg:hidden"
-        style={{ background: '#1a1a1e', border: '1px solid #2a2a30' }}
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f0ece4" strokeWidth="2">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
+      {/* Mobile top bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-2.5 lg:hidden"
+        style={{ background: '#141416', borderBottom: '1px solid #2a2a30' }}>
+        <div className="flex items-center gap-2.5">
+          <img src="/icon.png" alt="MeetingIQ" width={24} height={24} className="rounded-md" />
+          <span className="text-sm font-bold" style={{ color: '#f0ece4' }}>
+            Meeting<span style={{ color: '#d4a853' }}>IQ</span>
+          </span>
+        </div>
+        <button className="p-1.5 rounded-lg" style={{ background: '#1a1a1e' }}
+          onClick={() => setCollapsed(!collapsed)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f0ece4" strokeWidth="2">
+            {collapsed
+              ? <path d="M18 6L6 18M6 6l12 12"/>
+              : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>
+            }
+          </svg>
+        </button>
+      </div>
 
       {/* Sidebar */}
       <aside
